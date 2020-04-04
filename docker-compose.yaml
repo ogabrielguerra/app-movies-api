@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  webserver:
+    build: ./
+    image: php:7.4-apache-xdebug
+    container_name: movie-app-api-v2
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      XDEBUG_CONFIG: remote_host=http://localhost
+      PHP_EXTENSION_XDEBUG: 1
+    volumes:
+      - ./movie-app-api-v2/:/var/www/html
+
+
