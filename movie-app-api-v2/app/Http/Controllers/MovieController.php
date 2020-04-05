@@ -33,8 +33,6 @@ class MovieController
     public function showAll()
     {
         $output = $this->getMoviesDataFromCache();
-        header('Access-Control-Allow-Origin:*');
-        header('Content-Type: application/json');
         return $output;
     }
 

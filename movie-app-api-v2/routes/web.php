@@ -11,6 +11,7 @@
 |
 */
 $router->get('/', ['uses' => 'AppController@home', 'as' => 'home']);
+$router->get('/404', ['uses' => 'AppController@error404', 'as' => '404']);
 $router->get('/build', ['uses' => 'CacheRunnerController@buildCache', 'as' => 'buildCache']);
 $router->get('movies', ['uses' => 'MovieController@showAll', 'as' => 'movies']);
 $router->get('movie/{id}', ['uses' => 'MovieController@showMovie', 'as' => 'showMovie']);

@@ -11,6 +11,18 @@ class AppController
         echo 'API';
     }
 
+    public function error404()
+    {
+
+        $output = [
+            "status" => "error",
+            "error_code" => "404"
+        ];
+
+        header('Content-Type: application/json');
+        return json_encode($output);
+    }
+
     public function getNumPages()
     {
         return $this->numPages;
