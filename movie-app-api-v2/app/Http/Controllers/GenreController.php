@@ -2,43 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Laravel\Lumen\Routing\Controller as BaseController;
-
-class GenreController extends BaseController
+class GenreController
 {
 
-    function writeCache()
+    private $url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=1f54bd990f1cdfb230adb312546d765d';
+    private $cacheFile = 'genres.json';
+
+    public function getGenresDataFromCache($rebuildCache = false)
     {
-
-        $url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=1f54bd990f1cdfb230adb312546d765d';
-        $json = json_decode(file_get_contents($url));
-
-        try {
-            $writeCache = fopen('../cache/genres.json', 'w');
-            fwrite($writeCache, json_encode($json));
-            fclose($writeCache);
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        $cache = new CacheController();
+        return json_decode($cache->getDataFromCache($rebuildCache, $this->url, $this->cacheFile));
     }
 
-    function getGenres()
+    public function showAll()
     {
-        $file = '../cache/genres.json';
-
-        if (!file_exists($file)) {
-            $this->writeCache();
-        }
-
-        return file_get_contents($file);
+        $output = $this->getGenresDataFromCache();
+        return $output;
     }
 
-    function getGenresNamesByIds(Array $ids)
-    {
-        $genres = json_decode($this->getGenres())->genres;
 
+    function getGenresNamesByIds(String $ids)
+    {
+        $genres = $this->getGenresDataFromCache();
+        $genres = $genres[0]->genres;
+        $ids = explode(',', $ids);
         $movieGenres = [];
+
         foreach ($genres as $genre) {
             if (in_array($genre->id, $ids)) {
                 array_push($movieGenres, $genre->name);

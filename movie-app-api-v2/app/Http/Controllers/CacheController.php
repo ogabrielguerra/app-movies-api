@@ -8,18 +8,27 @@ class CacheController extends AppController
     private $data = [];
     private $cachePath = '../cache/';
 
+    public function __construct($multiPage = false)
+    {
+        $this->multiPage = $multiPage;
+    }
+
     private function writeCache($url, $cacheFile): bool
     {
 
-        $limit = $this->getNumPages();
+        // For the Movies get data from multiple pages/urls
+        if ($this->multiPage) {
+            for ($i = 1; $i < $this->getNumPages(); $i++) {
+                // Each iteration will increment the number of items passing $i index as parameter to the URL
+                $json = json_decode(file_get_contents($url . $i));
 
-        for ($i = 1; $i < $limit; $i++) {
-            // Each iteration will increment the number of items passing $i index as parameter to the URL
-            $json = json_decode(file_get_contents($url . $i));
-
-            foreach ($json->results as $movie) {
-                array_push($this->data, $movie);
+                foreach ($json->results as $item) {
+                    array_push($this->data, $item);
+                }
             }
+        } else {
+            $json = json_decode(file_get_contents($url));
+            array_push($this->data, $json);
         }
 
         try {
@@ -48,4 +57,5 @@ class CacheController extends AppController
 
         return file_get_contents($fullFilePath);
     }
+
 }

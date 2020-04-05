@@ -10,17 +10,9 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
-$router->get('/', function () use ($router) {
-    function appinfo()
-    {
-        phpinfo();
-//        $output = $router->app->version();
-
-    }
-
-    return appinfo();
-});
-
+$router->get('/', ['uses' => 'AppController@home', 'as' => 'home']);
+$router->get('/build', ['uses' => 'CacheRunnerController@buildCache', 'as' => 'buildCache']);
 $router->get('movies', ['uses' => 'MovieController@showAll', 'as' => 'movies']);
 $router->get('movie/{id}', ['uses' => 'MovieController@showMovie', 'as' => 'showMovie']);
+$router->get('genres', ['uses' => 'GenreController@showAll', 'as' => 'genres']);
+$router->get('genres/names/{genresIdsList}', ['uses' => 'GenreController@getGenresNamesByIds', 'as' => 'genresNames']);

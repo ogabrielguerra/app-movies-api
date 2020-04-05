@@ -6,11 +6,12 @@ class AppController
 {
     private $numPages = 11;
 
-    function __construct()
+    public function home()
     {
+        echo 'API';
     }
 
-    function getNumPages()
+    public function getNumPages()
     {
         return $this->numPages;
     }

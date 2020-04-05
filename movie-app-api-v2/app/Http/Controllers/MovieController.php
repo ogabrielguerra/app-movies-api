@@ -9,10 +9,10 @@ class MovieController
     private $url = 'https://api.themoviedb.org/3/movie/upcoming?api_key=1f54bd990f1cdfb230adb312546d765d&page=';
     private $cacheFile = 'movies.json';
 
-    private function getMoviesDataFromCache($rebuildCache = false)
+    public function getMoviesDataFromCache($rebuildCache = false)
     {
-        $cache = new CacheController();
-        return $cache->getDataFromCache($rebuildCache, $this->url, $this->cacheFile);
+        $cache = new CacheController($multiPage = true);
+        return json_decode($cache->getDataFromCache($rebuildCache, $this->url, $this->cacheFile, $multiPage = false));
     }
 
     private function getMovie($id = null)
@@ -32,7 +32,9 @@ class MovieController
 
     public function showAll()
     {
-        $output = json_decode($this->getMoviesDataFromCache());
+        $output = $this->getMoviesDataFromCache();
+        header('Access-Control-Allow-Origin:*');
+        header('Content-Type: application/json');
         return $output;
     }
 
