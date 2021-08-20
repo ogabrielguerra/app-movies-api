@@ -24,3 +24,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 movie-app-api/db_data/
+movie-app-api/www/vendor/
+movie-app-api/www/cache/

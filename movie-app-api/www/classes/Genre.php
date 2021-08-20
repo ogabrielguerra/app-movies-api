@@ -1,5 +1,5 @@
 <?php
-
+#TODO Refactor this Class
 class Genre {
 
     function writeCache(){

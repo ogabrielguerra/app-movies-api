@@ -1,9 +1,13 @@
 <?php
+namespace www\classes;
+use classes\MovieApi;
 
+#TODO: Refactor this Class
 class Movie{
 
     private $data = [];
     private $numPages = 11;
+    private $moviesJsonFile = '../cache/movies.json';
 
     function writeCache(){
 
@@ -17,9 +21,9 @@ class Movie{
                 array_push($this->data, $movie);
             }
         }
-
+        
         try{
-            $writeCache = fopen('../cache/movies.json', 'w');
+            $writeCache = fopen($this->moviesJsonFile, 'w');
             fwrite($writeCache, json_encode($this->data));
             fclose($writeCache);
             return true;
@@ -30,13 +34,11 @@ class Movie{
 
     function getMoviesDataFromCache($rebuildCache=false){
 
-        $file = '../cache/movies.json';
-
-        if($rebuildCache || !file_exists($file)){
+        if($rebuildCache || !file_exists($this->moviesJsonFile)){
             $this->writeCache();
         }
 
-        return file_get_contents($file);
+        return file_get_contents($this->moviesJsonFile);
     }
 
     function getMovie(int $id=null){
