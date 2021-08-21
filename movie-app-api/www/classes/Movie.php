@@ -1,20 +1,19 @@
 <?php
 namespace www\classes;
-use classes\MovieApi;
 
-#TODO: Refactor this Class
-class Movie{
+class Movie implements iMovie{
 
     private $data = [];
     private $numPages = 11;
-    private $moviesJsonFile = '../cache/movies.json';
+    private $moviesJsonFile = './cache/movies.json';
+    private $url = 'https://api.themoviedb.org/3/movie/upcoming?api_key=1f54bd990f1cdfb230adb312546d765d&page=';
 
-    function writeCache(){
+    private function writeCache(){
 
         $limit = $this->numPages + 1;
 
         for($i=1; $i<$limit; $i++){
-            $url = 'https://api.themoviedb.org/3/movie/upcoming?api_key=1f54bd990f1cdfb230adb312546d765d&page='.$i;
+            $url = $this->url.$i;
             $json = json_decode(file_get_contents($url));
 
             foreach ($json->results as $movie){
@@ -32,7 +31,7 @@ class Movie{
         }
     }
 
-    function getMoviesDataFromCache($rebuildCache=false){
+    public function getMoviesDataFromCache(bool $rebuildCache=false){
 
         if($rebuildCache || !file_exists($this->moviesJsonFile)){
             $this->writeCache();
@@ -41,7 +40,7 @@ class Movie{
         return file_get_contents($this->moviesJsonFile);
     }
 
-    function getMovie(int $id=null){
+    public function getMovie(int $id=null){
         if($id!=null){
             $data = json_decode($this->getMoviesDataFromCache());
 
