@@ -1,4 +1,5 @@
 <?php
+namespace www\classes;
 
 class Poster{
 
@@ -30,8 +31,7 @@ class Poster{
     }
 
     function getPoster(String $imageRef){
-        $poster = 'https://gabrielguerra.me/movie-app-api/cache/posters/'.$imageRef;
-        echo $poster;
+        return 'https://gabrielguerra.me/movie-app-api/cache/posters/'.$imageRef;
     }
 
 

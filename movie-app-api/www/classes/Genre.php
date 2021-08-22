@@ -1,5 +1,6 @@
 <?php
-#TODO Refactor this Class
+namespace www\classes;
+
 class Genre {
 
     function writeCache(){

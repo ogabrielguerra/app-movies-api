@@ -1,7 +1,9 @@
 <?php
     require 'bootstrap.php';
     use www\classes\Movie;
-
+    use www\classes\Poster;
+    use www\classes\Genre;
+    use www\classes\CacheBuilder;
 
     function home(){
         return '
@@ -11,8 +13,27 @@
     }
 
 
-    function handle(){
-        return 'Hello';
+    function getPoster(){
+        $movie = new Movie();
+        $poster = new Poster($movie);
+
+        if(isset($_GET["imgRef"]) && !empty($_GET["imgRef"])){
+            $ref = $_GET["imgRef"];
+            return $poster->getPoster($ref);
+        }else{
+            return "Error: parameter missing";
+        }
+    }
+
+    function getGenres(){
+        $genre = new Genre();
+
+        if(isset($_GET["ids"]) && !empty($_GET["ids"])){
+            $ids = $_GET["ids"];
+            $ar = explode(",", $ids);
+            echo $genre->getGenresNamesByIds($ar);
+        }
+        return 'foo';
     }
 
     function getMovie(){
@@ -20,10 +41,33 @@
         return $movie->getMoviesDataFromCache(false);
     }
 
+    function getMovieGenres(){
+        $genre = new Genre();
+
+        if(isset($_GET["ids"]) && !empty($_GET["ids"])){
+            $ids = $_GET["ids"];
+            $ar = explode(",", $ids);
+            echo $genre->getGenresNamesByIds($ar);
+        }
+        return 'foo2';
+    }
+
+    function buildCache(){
+        // $movie = new Movie();
+        // $poster = new Poster($movie);
+        // $genre = new Genre();
+        // $cache = new CacheBuilder($movie, $poster, $genre);
+        return 'Cache generated';
+    }
+
     $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
         $r->addRoute('GET', '/', home());
-        $r->addRoute('GET', '/users', handle());
+        $r->addRoute('GET', '/poster', getPoster());
         $r->addRoute('GET', '/movie', getMovie());
+        $r->addRoute('GET', '/movie/genres', getMovieGenres());
+        $r->addRoute('GET', '/genre', getGenres());
+        $r->addRoute('GET', '/build-cache', buildCache());
+
     });
 
     $httpMethod = $_SERVER['REQUEST_METHOD'];

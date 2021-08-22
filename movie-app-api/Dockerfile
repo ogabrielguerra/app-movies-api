@@ -5,4 +5,3 @@ RUN a2enmod rewrite
 COPY uploads.ini /usr/local/etc/php/conf.d
 RUN service apache2 restart
 RUN chown -R www-data:www-data /var/www
-RUN chmod -R 777 /var/www/html/storage

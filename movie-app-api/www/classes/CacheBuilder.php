@@ -1,6 +1,5 @@
 <?php
-
-require '../bootstrap.php';
+namespace www\classes;
 
 class CacheBuilder{
     function __construct($movie, $poster, $genre)
@@ -11,8 +10,3 @@ class CacheBuilder{
         echo "Cache built succesfully!";
     }
 }
-
-$movie = new Movie();
-$poster = new Poster($movie);
-$genre = new Genre();
-$cache = new CacheBuilder($movie, $poster, $genre);
