@@ -31,7 +31,7 @@ class Movie implements iMovie{
         }
     }
 
-    public function getMoviesDataFromCache(bool $rebuildCache=false){
+    public function getMoviesDataFromCache(bool $rebuildCache=false): String{
 
         if($rebuildCache || !file_exists($this->moviesJsonFile)){
             $this->writeCache();

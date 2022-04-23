@@ -44,7 +44,7 @@ class Movie extends Base{
         let genresIds = this.state.data.genre_ids;
 
         // let urlGenres = `http://apis.gabrielguerra.me/movie-app/movie-genres/?ids=${this.state.data.genre_ids}`;
-        let urlGenres = `${this.getApiPath()}genres/names/${genresIds}`;
+        let urlGenres = `${this.getApiPath()}/genres/names/${genresIds}`;
 
         if(typeof genresIds != "undefined" && genresIds != null && genresIds.length != null && genresIds.length > 0){
 

@@ -19,7 +19,7 @@
     function getPoster(){
         $movie = new Movie();
         $poster = new Poster($movie);
-
+        var_dump($_GET);
         if(isset($_GET["imgRef"]) && !empty($_GET["imgRef"])){
             $ref = $_GET["imgRef"];
             return $poster->getPoster($ref);
@@ -31,17 +31,22 @@
     function getGenres(){
         $genre = new Genre();
 
-        if(isset($_GET["ids"]) && !empty($_GET["ids"])){
-            $ids = $_GET["ids"];
-            $ar = explode(",", $ids);
-            echo $genre->getGenresNamesByIds($ar);
+        if(isset($_GET["idsList"]) && !empty($_GET["idsList"])){
+            return 'faa';
+            // $ids = $_GET["idsList"];
+            // $idsList = explode(",", $idsList);
+            // return $idsList;
+            // echo $genre->getGenresNamesByIds($ar);
         }
-        return 'foo';
+        // return 'foo';
     }
 
     function getMovie(){
         $movie = new Movie();
-        return $movie->getMoviesDataFromCache(false);
+        $content = $movie->getMoviesDataFromCache(false);
+        if(!empty($content))
+            return $content;
+        return http_response_code(201);
     }
 
     function getMovieGenres(){
@@ -50,7 +55,8 @@
         if(isset($_GET["ids"]) && !empty($_GET["ids"])){
             $ids = $_GET["ids"];
             $ar = explode(",", $ids);
-            echo $genre->getGenresNamesByIds($ar);
+            return [];
+            // echo $genre->getGenresNamesByIds($ar);
         }
         return 'foo2';
     }
@@ -68,7 +74,7 @@
         $r->addRoute('GET', '/poster', getPoster());
         $r->addRoute('GET', '/movie', getMovie());
         $r->addRoute('GET', '/movie/genres', getMovieGenres());
-        $r->addRoute('GET', '/genre', getGenres());
+        $r->addRoute('GET', '/genre/{idsList:\d+}', getGenres());
         $r->addRoute('GET', '/build-cache', buildCache());
 
     });
@@ -94,7 +100,7 @@
         case FastRoute\Dispatcher::FOUND:
             $handler = $routeInfo[1];
             $vars = $routeInfo[2];
-            // echo 'FOUND!';
+            echo 'FOUND!';
             echo $handler;
             break;
     }

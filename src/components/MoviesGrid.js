@@ -21,7 +21,7 @@ class MoviesGrid extends Base {
     constructor(props) {
 
         super(props);
-        this.iniUrl = `${this.getApiPath()}movie`;
+        this.iniUrl = `${this.getApiPath()}/movie`;
         this.numMoviesPerPage = 20;
         this.onChange = this.onChange.bind(this);
         this.nextPage = this.nextPage.bind(this);

@@ -9,7 +9,7 @@ class Base extends React.Component{
         this.path = '/';
 
         if(this.env === 'development'){
-            this.apiPath = 'http://localhost:81/';
+            this.apiPath = 'http://localhost:81';
         }else if (this.env === 'production'){
             this.apiPath = 'http://apis.gabrielguerra.me/movie-app/v2/';
         }
